@@ -13,7 +13,8 @@
   notify: restart mysql
 
 - name: Configure /etc/mysql/my.cnf correctly
-  copy: dest=/etc/mysql/my.cnf
+  copy: 
+    dest=/etc/mysql/my.cnf
   content: |
     !includedir /etc/mysql/conf.d/
     !includedir /etc/mysql/mariadb.conf.d/
