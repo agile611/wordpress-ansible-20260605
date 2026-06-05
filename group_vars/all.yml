@@ -9,3 +9,18 @@ mysql_port_number: 3306
 packages_database:
   - default-mysql-server
   - python3-mysqldb
+  - python3-pymysql
+
+packages_apache2: 
+  - apache2
+  - libapache2-mod-php
+
+packages_php:
+  - php
+  - php-cli
+  - php-fpm
+  - php-mysql
+  - php-xml
+  - php-curl
+  - php-mbstring
+  - php-zip

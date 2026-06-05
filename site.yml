@@ -6,14 +6,16 @@
   roles:
     - mysql
 
+- hosts: webserver
+  become: true
+  vars_files:
+    - group_vars/all.yml  
+  roles:
+    - apache2
+    - php
+    - wordpress
+
 - hosts: loadbalancer
   become: true
   roles:
     - nginx
-
-- hosts: webserver
-  become: true
-  roles:
-    - php
-    - wordpress
-    - apache2
