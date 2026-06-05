@@ -1,4 +1,4 @@
 #SPDX-License-Identifier: MIT-0
 ---
-- name: ensure mysql started
+- name: restart mysql
   service: name=mysql state=started enabled=yes
