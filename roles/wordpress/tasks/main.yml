@@ -29,7 +29,7 @@
     creates: "{{ wordpress_install_dir }}/wp-config.php"
 
 - name: Copiar wp-config.php
-  copy:
+  template:
     src: wp-config.php.j2
     dest: "{{ wordpress_install_dir }}/wp-config.php"
     owner: www-data
