@@ -26,7 +26,7 @@
     owner: www-data
     group: www-data
     mode: '0755'
-    creates: "{{ wordpress_install_dir }}/wp-config.php"
+    creates: "{{ wordpress_install_dir }}/index.php"
 
 - name: Copiar wp-config.php
   template:
