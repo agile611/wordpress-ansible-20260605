@@ -40,11 +40,24 @@
   debug:
     msg: "The value of db_root_password is {{ db_root_password }}"
 
-- name: create demo database
-  ansible.mysql.mysql_db: name={{db_name}} state=present
+- name: create Wordpress database
+  ansible.mysql.mysql_db: 
+    name={{db_name}} 
+    state=present
+    login_user=root
+    login_password={{ db_root_password }}
+    login_unix_socket=/var/run/mysqld/mysqld.sock
 
-- name: create demo user
-  ansible.mysql.mysql_user: name={{db_user}} password={{db_password}} priv={{db_name}}.*:ALL host='{{db_host}}' state=present
+- name: create Wordpress user
+  ansible.mysql.mysql_user: 
+    name={{db_user}} 
+    password={{db_password}} 
+    priv={{db_name}}.*:ALL 
+    host='{{db_host}}' 
+    state=present
+    login_user=root
+    login_password={{ db_root_password }}
+    login_unix_socket=/var/run/mysqld/mysqld.sock
 
 - name: elimnate /root/.my.cnf
   file: path=/root/.my.cnf state=absent
