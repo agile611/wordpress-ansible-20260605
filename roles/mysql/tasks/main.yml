@@ -2,18 +2,17 @@
 ---
 - name: install tools
   apt: name={{item}} state=present update_cache=yes
-  with_items:
-    - default-mysql-server
-    - python3-mysqldb
+  with_items: "{{packages_database}}"
+  notify: restart mysql
 
 - name: install mysql-server
   apt: name=default-mysql-server state=present update_cache=yes
 
 - name: ensure mysql listening on all ports
   lineinfile: dest=/etc/mysql/mariadb.conf.d/50-server.cnf regexp=^bind-address line="bind-address = {{mysql_bind_address}}"
+  notify: restart mysql
 
-- name: ensure mysql started
-  service: name=mysql state=started enabled=yes
+
 
 - name: create demo database
   ansible.mysql.mysql_db: name={{db_name}} state=present

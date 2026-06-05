@@ -1,3 +1,4 @@
 #SPDX-License-Identifier: MIT-0
 ---
-# handlers file for mysql
+- name: ensure mysql started
+  service: name=mysql state=started enabled=yes

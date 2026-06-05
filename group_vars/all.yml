@@ -5,3 +5,7 @@ db_password: "wordpress"
 db_host: "%"
 mysql_bind_address: "0.0.0.0"
 mysql_port_number: 3306
+
+packages_database:
+  - default-mysql-server
+  - python3-mysqldb
