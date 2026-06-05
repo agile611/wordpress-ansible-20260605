@@ -21,7 +21,7 @@
 - name: Descomprimir WordPress
   unarchive:
     src: "/tmp/wordpress.zip"
-    dest: "/tmp/"
+    dest: {{ wordpress_install_dir }}
     remote_src: yes
     owner: www-data
     group: www-data
