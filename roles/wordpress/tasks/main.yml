@@ -5,9 +5,17 @@
     name: "{{ packages_wordpress }}"
     state: present
 
+- name: Asegurar que el directorio de instalación de WordPress exista
+  file:
+    path: "{{ wordpress_unzip_dir }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
 - name: Crear directorio de instalación de WordPress
   file:
-    path: "{{ wordpress_install_dir }}"
+    path: "{{ wordpress_unzip_dir }}"
     state: directory
     owner: www-data
     group: www-data
