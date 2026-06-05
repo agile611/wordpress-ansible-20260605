@@ -5,12 +5,38 @@
   with_items: "{{packages_database}}"
   notify: restart mysql
 
-- name: install mysql-server
-  apt: name=default-mysql-server state=present update_cache=yes
+- name: Correct permissions for mysql
+  file: path=/etc/mysql/my.cnf owner=root group=root mode=0644
+
+- name: Copy mysql configuration file
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644
+  notify: restart mysql
+
+- name: Configure /etc/mysql/my.cnf correctly
+  copy: dest=/etc/mysql/my.cnf
+  content: |
+    !includedir /etc/mysql/conf.d/
+    !includedir /etc/mysql/mariadb.conf.d/
+  owner: root
+  group: root
+  mode: 0644
+  notify: restart mysql
 
 - name: ensure mysql listening on all ports
   lineinfile: dest=/etc/mysql/mariadb.conf.d/50-server.cnf regexp=^bind-address line="bind-address = {{mysql_bind_address}}"
   notify: restart mysql
+
+- name: Create /root/.my.cnf
+  copy: 
+    dest=/root/.my.cnf 
+    content="[client]\nuser=root\npassword={{ db_root_password }}\nhost=localhost\n
+  owner: root
+  group: root
+  mode: 0600
+  notify: restart mysql
+
+- name: DEBUG - db_root_password
+  msg: "The value of db_root_password is {{ db_root_password }}"
 
 - name: create demo database
   ansible.mysql.mysql_db: name={{db_name}} state=present
