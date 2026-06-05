@@ -12,10 +12,11 @@
   lineinfile: dest=/etc/mysql/mariadb.conf.d/50-server.cnf regexp=^bind-address line="bind-address = {{mysql_bind_address}}"
   notify: restart mysql
 
-
-
 - name: create demo database
   ansible.mysql.mysql_db: name={{db_name}} state=present
 
 - name: create demo user
   ansible.mysql.mysql_user: name={{db_user}} password={{db_password}} priv={{db_name}}.*:ALL host='{{db_host}}' state=present
+
+- name: elimnate /root/.my.cnf
+  file: path=/root/.my.cnf state=absent
