@@ -11,16 +11,16 @@
 - name: Copy mysql configuration file
   template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644
   notify: restart mysql
-
+  
 - name: Configure /etc/mysql/my.cnf correctly
-  copy: 
-    dest=/etc/mysql/my.cnf
-  content: |
-    !includedir /etc/mysql/conf.d/
-    !includedir /etc/mysql/mariadb.conf.d/
-  owner: root
-  group: root
-  mode: 0644
+  copy:
+    dest: /etc/mysql/my.cnf
+    content: |
+      !includedir /etc/mysql/conf.d/
+      !includedir /etc/mysql/mariadb.conf.d/
+    owner: root
+    group: root
+    mode: 0644
   notify: restart mysql
 
 - name: ensure mysql listening on all ports
@@ -29,11 +29,11 @@
 
 - name: Create /root/.my.cnf
   copy: 
-    dest=/root/.my.cnf 
-    content="[client]\nuser=root\npassword={{ db_root_password }}\nhost=localhost\n
-  owner: root
-  group: root
-  mode: 0600
+    dest: /root/.my.cnf 
+    content: "[client]\nuser=root\npassword={{ db_root_password }}\nhost=localhost\n"
+    owner: root
+    group: root
+    mode: 0600
   notify: restart mysql
 
 - name: DEBUG - db_root_password
