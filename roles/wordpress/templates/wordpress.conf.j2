@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerAdmin {{ hostvars[groups.webserver[0]]['ansible_host'] }}
+    ServerName {{ hostvars[groups.webserver[0]]['ansible_host'] }}
+    DocumentRoot {{ wordpress_install_dir }}
+
+    <Directory {{ wordpress_install_dir }}>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/{{ hostvars[groups.webserver[0]]['ansible_host'] }}_error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ hostvars[groups.webserver[0]]['ansible_host'] }}_access.log combined
+</VirtualHost>

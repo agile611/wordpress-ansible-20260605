@@ -1,3 +1,55 @@
 #SPDX-License-Identifier: MIT-0
 ---
-# tasks file for wordpress
+- name: Instalar paquetes wordpress
+  apt:
+    name: "{{ packages_wordpress }}"
+    state: present
+
+- name: Crear directorio de instalación de WordPress
+  file:
+    path: "{{ wordpress_install_dir }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Descargar WordPress
+  get_url:
+    url: "{{ wordpress_download_url }}"
+    dest: "/tmp/wordpress.zip"  
+
+- name: Descomprimir WordPress
+  unarchive:
+    src: "/tmp/wordpress.zip"
+    dest: "/tmp/"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+    mode: '0755'
+    creates: "{{ wordpress_install_dir }}/wp-config.php"
+
+- name: Copiar wp-config.php
+  copy:
+    src: wp-config.php.j2
+    dest: "{{ wordpress_install_dir }}/wp-config.php"
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+- name: Configurar Virtual Host de WordPress
+  template:
+    src: wordpress.conf.j2
+    dest: /etc/apache2/sites-available/wordpress.conf
+  notify: restart apache2
+
+- name: Habilitar sitio de WordPress
+  command: a2ensite wordpress.conf
+  notify: restart apache2
+
+- name: Habilitar módulo rewrite de Apache
+  command: a2enmod rewrite
+  notify: restart apache2
+
+- name: Deshabilitar el sitio por defecto de Apache
+  command: a2dissite 000-default.conf
+  notify: restart apache2
