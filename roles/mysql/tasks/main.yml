@@ -37,7 +37,8 @@
   notify: restart mysql
 
 - name: DEBUG - db_root_password
-  msg: "The value of db_root_password is {{ db_root_password }}"
+  debug:
+    msg: "The value of db_root_password is {{ db_root_password }}"
 
 - name: create demo database
   ansible.mysql.mysql_db: name={{db_name}} state=present
