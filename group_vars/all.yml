@@ -35,6 +35,7 @@ packages_wordpress:
 
 wordpress_version: "6.9.4" # Última versión de WordPress al momento de escribir esta respuesta, para poner la 7.0
 wordpress_download_url: "https://wordpress.org/wordpress-{{ wordpress_version }}.zip"
+wordpress_unzip_dir: "/var/www/html/"
 wordpress_install_dir: "/var/www/html/wordpress"
 wp_admin_user: "admin"
 wp_admin_password: "admin"
